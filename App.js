@@ -10,6 +10,7 @@ import TicketContainer from './app/containers/TicketContainer';
 
 import rootReducer from './app/reducers';
 import {BackButton} from '@components';
+import {Button} from 'react-native';
 
 const globalStore = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 const Stack = createNativeStackNavigator();
@@ -26,6 +27,7 @@ function App() {
           }}>
           <Stack.Group
             screenOptions={({navigation}) => ({
+              headerBackVisible: false,
               headerTitle: () => <></>,
               headerLeft: ({canGoBack}) =>
                 canGoBack && <BackButton navigation={navigation} />,

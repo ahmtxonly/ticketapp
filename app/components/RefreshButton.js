@@ -7,13 +7,13 @@ import Assets from '@assets';
 
 const RefreshButton = () => {
   const dispatch = useDispatch();
-  const {selectedTickets, user_balance} =
+  const {selectedTickets, user_balance, createTicket} =
     useSelector(state => state.ticket) || {};
 
   return (
     <View style={styles.refreshSide}>
       <View>
-        {selectedTickets?.length === user_balance && (
+        {selectedTickets?.length + (createTicket ? 1 : 0) === user_balance && (
           <Text style={styles.errorText}>
             Your balance is not available for more
           </Text>
