@@ -79,80 +79,84 @@ const CreateTicketPage = () => {
   }, [createTicket]);
 
   return (
-    <View style={styles.createTicketsContainer}>
-      <Text style={styles.title}>Choose your number</Text>
-      <CodeField
-        ref={ref}
-        {...props}
-        value={value}
-        onChangeText={setValue}
-        cellCount={CELL_COUNT}
-        rootStyle={styles.codeFiledRoot}
-        keyboardType="number-pad"
-        textContentType="oneTimeCode"
-        returnKeyType="done"
-        blurOnSubmit={true}
-        editable={!(selectedTickets?.length === user_balance)}
-        onSubmitEditing={() => submitHandler()}
-        onBlur={() => submitHandler()}
-        renderCell={({index, symbol, isFocused}) => (
-          <Text
-            key={index}
-            style={[styles.cell, isFocused && styles.focusCell]}
-            onLayout={getCellOnLayoutHandler(index)}>
-            {symbol || (isFocused ? <Cursor /> : null)}
-          </Text>
-        )}
-      />
-      <View style={styles.content}>
-        <View style={styles.contentInner}>
-          <View style={styles.codeSideWrapper}>
-            <Text style={styles.contentTitle}>Your Ticket Numbers</Text>
-            <View style={styles.codeSide}>
-              <Text style={styles.codeText}>{valuePlaceHolder()}</Text>
+    <>
+      <View style={styles.createTicketsContainer}>
+        <Text style={styles.title}>Choose your number</Text>
+        <CodeField
+          ref={ref}
+          {...props}
+          value={value}
+          onChangeText={setValue}
+          cellCount={CELL_COUNT}
+          rootStyle={styles.codeFiledRoot}
+          keyboardType="number-pad"
+          textContentType="oneTimeCode"
+          returnKeyType="done"
+          blurOnSubmit={true}
+          editable={!(selectedTickets?.length === user_balance)}
+          onSubmitEditing={() => submitHandler()}
+          onBlur={() => submitHandler()}
+          renderCell={({index, symbol, isFocused}) => (
+            <Text
+              key={index}
+              style={[styles.cell, isFocused && styles.focusCell]}
+              onLayout={getCellOnLayoutHandler(index)}>
+              {symbol || (isFocused ? <Cursor /> : null)}
+            </Text>
+          )}
+        />
+      </View>
+      <View style={styles.secondSide}>
+        <View style={styles.content}>
+          <View style={styles.contentInner}>
+            <View style={styles.codeSideWrapper}>
+              <Text style={styles.contentTitle}>Your Ticket Numbers</Text>
+              <View style={styles.codeSide}>
+                <Text style={styles.codeText}>{valuePlaceHolder()}</Text>
+              </View>
             </View>
-          </View>
-          <View style={styles.refreshSide}>
-            {showError && (
-              <Text style={styles.errorText}>
-                Ticket number has been already bought
-              </Text>
-            )}
-            <View>
-              {selectedTickets?.length === user_balance && (
+            <View style={styles.refreshSide}>
+              {showError && (
                 <Text style={styles.errorText}>
-                  Your balance is not available for more
+                  Ticket number has been already bought
                 </Text>
               )}
+              <View>
+                {selectedTickets?.length === user_balance && (
+                  <Text style={styles.errorText}>
+                    Your balance is not available for more
+                  </Text>
+                )}
+              </View>
+              <TouchableOpacity
+                style={[
+                  styles.refreshButton,
+                  selectedTickets?.length === user_balance &&
+                    styles.refreshButtonDisabled,
+                ]}
+                disabled={selectedTickets?.length === user_balance}
+                onPress={() => randomHandler()}>
+                <Image
+                  style={{width: 16, height: 16}}
+                  source={Assets.purpleRefreshIcon}
+                />
+                <Text style={styles.refreshText}>Refresh</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              style={[
-                styles.refreshButton,
-                selectedTickets?.length === user_balance &&
-                  styles.refreshButtonDisabled,
-              ]}
-              disabled={selectedTickets?.length === user_balance}
-              onPress={() => randomHandler()}>
-              <Image
-                style={{width: 16, height: 16}}
-                source={Assets.purpleRefreshIcon}
-              />
-              <Text style={styles.refreshText}>Refresh</Text>
-            </TouchableOpacity>
+          </View>
+          <View style={styles.svgBackground}>
+            <SvgCss xml={backgroundOne} width="100%" height="202" />
+            <SvgCss xml={backgroundTwo} width="100%" height="136" />
           </View>
         </View>
-        <View style={styles.svgBackground}>
-          <SvgCss xml={backgroundOne} width="100%" height="202" />
-          <SvgCss xml={backgroundTwo} width="100%" height="136" />
-        </View>
       </View>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   createTicketsContainer: {
-    flex: 1,
+    // flex: 1,
     padding: 24,
     paddingTop: 8,
   },
@@ -179,8 +183,14 @@ const styles = StyleSheet.create({
   focusCell: {
     borderColor: '#7248DD',
   },
+  secondSide: {
+    // paddingHorizontal: 24,
+    // backgroundColor: 'red',
+    width: '100%',
+    paddingHorizontal: 24,
+  },
   content: {
-    marginTop: 32,
+    // marginTop: 32,
     shadowColor: '#7A81BE',
     shadowOffset: {
       width: 0,
@@ -188,8 +198,11 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.16,
     shadowRadius: 6.27,
-
     elevation: 10,
+    // backgroundColor: 'red',
+    position: 'relative',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   svgBackground: {
     position: 'absolute',
@@ -200,6 +213,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     zIndex: 1,
     alignItems: 'center',
+    width: '100%',
   },
   codeSideWrapper: {
     height: 204,
